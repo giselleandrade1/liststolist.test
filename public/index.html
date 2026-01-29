@@ -1,0 +1,475 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Advanced Task Manager - Java Serverless</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        header {
+            background: white;
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            margin-bottom: 30px;
+            text-align: center;
+        }
+
+        header h1 {
+            color: #667eea;
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+        }
+
+        header p {
+            color: #666;
+            font-size: 1.1rem;
+        }
+
+        .badge {
+            display: inline-block;
+            padding: 5px 15px;
+            background: #667eea;
+            color: white;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            margin: 5px;
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 25px;
+            margin-bottom: 30px;
+        }
+
+        .card {
+            background: white;
+            border-radius: 15px;
+            padding: 25px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            transition: transform 0.3s ease;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+        }
+
+        .card h2 {
+            color: #333;
+            margin-bottom: 15px;
+            font-size: 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .icon {
+            font-size: 1.8rem;
+        }
+
+        button {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            padding: 12px 25px;
+            border-radius: 8px;
+            font-size: 1rem;
+            cursor: pointer;
+            width: 100%;
+            margin-top: 15px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+
+        button:hover {
+            transform: scale(1.05);
+            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
+        }
+
+        button:active {
+            transform: scale(0.98);
+        }
+
+        .result {
+            margin-top: 15px;
+            padding: 15px;
+            background: #f8f9fa;
+            border-radius: 8px;
+            border-left: 4px solid #667eea;
+            font-family: 'Courier New', monospace;
+            font-size: 0.9rem;
+            white-space: pre-wrap;
+            max-height: 400px;
+            overflow-y: auto;
+        }
+
+        .matrix {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 15px;
+            margin-top: 15px;
+        }
+
+        .quadrant {
+            padding: 15px;
+            border-radius: 8px;
+            border: 2px solid #ddd;
+        }
+
+        .quadrant.urgent-important {
+            background: #fee;
+            border-color: #f44336;
+        }
+
+        .quadrant.not-urgent-important {
+            background: #efe;
+            border-color: #4caf50;
+        }
+
+        .quadrant.urgent-not-important {
+            background: #ffe;
+            border-color: #ff9800;
+        }
+
+        .quadrant.not-urgent-not-important {
+            background: #eef;
+            border-color: #2196f3;
+        }
+
+        .quadrant h3 {
+            font-size: 0.9rem;
+            margin-bottom: 10px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .task-item {
+            background: white;
+            padding: 8px;
+            margin: 5px 0;
+            border-radius: 5px;
+            font-size: 0.85rem;
+        }
+
+        .loading {
+            text-align: center;
+            padding: 20px;
+            color: #667eea;
+            font-weight: 600;
+        }
+
+        .stats {
+            display: flex;
+            justify-content: space-around;
+            margin: 20px 0;
+            flex-wrap: wrap;
+        }
+
+        .stat {
+            text-align: center;
+            padding: 15px;
+        }
+
+        .stat-value {
+            font-size: 2rem;
+            font-weight: bold;
+            color: #667eea;
+        }
+
+        .stat-label {
+            color: #666;
+            font-size: 0.9rem;
+            margin-top: 5px;
+        }
+
+        input {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            margin: 10px 0;
+            font-size: 1rem;
+            transition: border 0.3s ease;
+        }
+
+        input:focus {
+            outline: none;
+            border-color: #667eea;
+        }
+
+        .success {
+            background: #4caf50;
+            color: white;
+            padding: 15px;
+            border-radius: 8px;
+            margin-top: 15px;
+            text-align: center;
+            font-weight: 600;
+        }
+
+        .error {
+            background: #f44336;
+            color: white;
+            padding: 15px;
+            border-radius: 8px;
+            margin-top: 15px;
+            text-align: center;
+            font-weight: 600;
+        }
+
+        footer {
+            background: white;
+            padding: 20px;
+            border-radius: 15px;
+            text-align: center;
+            color: #666;
+            margin-top: 30px;
+        }
+
+        .tech-stack {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            flex-wrap: wrap;
+            margin-top: 15px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>🚀 Advanced Task Manager</h1>
+            <p>Java Serverless | Clean Architecture | Cloud-Native</p>
+            <div style="margin-top: 15px;">
+                <span class="badge">Java 17</span>
+                <span class="badge">Vercel Serverless</span>
+                <span class="badge">Eisenhower Matrix</span>
+                <span class="badge">Critical Path</span>
+                <span class="badge">PERT</span>
+            </div>
+        </header>
+
+        <div class="grid">
+            <!-- Create Task Card -->
+            <div class="card">
+                <h2><span class="icon">➕</span> Criar Tarefa</h2>
+                <input type="text" id="taskTitle" placeholder="Título da tarefa" value="Implementar API REST">
+                <input type="number" id="taskTime" placeholder="Tempo estimado (horas)" value="5">
+                <input type="number" id="taskPriority" placeholder="Prioridade (1-10)" value="8" min="1" max="10">
+                <button onclick="createTask()">Criar Tarefa</button>
+                <div id="createResult"></div>
+            </div>
+
+            <!-- List Tasks Card -->
+            <div class="card">
+                <h2><span class="icon">📋</span> Listar Tarefas</h2>
+                <p style="color: #666; margin-bottom: 10px;">Classificação por Matriz de Eisenhower</p>
+                <button onclick="listTasks()">Carregar Tarefas</button>
+                <div id="listResult"></div>
+            </div>
+
+            <!-- Schedule Card -->
+            <div class="card">
+                <h2><span class="icon">⏱️</span> Caminho Crítico</h2>
+                <p style="color: #666; margin-bottom: 10px;">Análise de dependências e estimativa PERT</p>
+                <button onclick="scheduleProject()">Calcular Critical Path</button>
+                <div id="scheduleResult"></div>
+            </div>
+        </div>
+
+        <!-- Matrix Display -->
+        <div class="card" style="display: none;" id="matrixCard">
+            <h2>📊 Matriz de Priorização</h2>
+            <div class="stats">
+                <div class="stat">
+                    <div class="stat-value" id="totalTasks">0</div>
+                    <div class="stat-label">Total de Tarefas</div>
+                </div>
+            </div>
+            <div class="matrix" id="matrixDisplay"></div>
+        </div>
+
+        <footer>
+            <h3 style="margin-bottom: 10px;">🏗️ Arquitetura</h3>
+            <p style="margin-bottom: 15px;">Core Layer (Stateless) → API Layer (Serverless) → Vercel Functions</p>
+            <div class="tech-stack">
+                <span class="badge">PriorityEngine</span>
+                <span class="badge">CriticalPathEngine</span>
+                <span class="badge">Immutable Task</span>
+                <span class="badge">JUnit 5</span>
+                <span class="badge">Maven</span>
+            </div>
+        </footer>
+    </div>
+
+    <script>
+        const API_BASE = '/api/tasks';
+
+        async function createTask() {
+            const title = document.getElementById('taskTitle').value;
+            const time = document.getElementById('taskTime').value;
+            const priority = document.getElementById('taskPriority').value;
+            const result = document.getElementById('createResult');
+
+            result.innerHTML = '<div class="loading">⏳ Criando tarefa...</div>';
+
+            try {
+                // Simulação local (em produção, chama o endpoint real)
+                const response = {
+                    id: 'task-' + Date.now(),
+                    title: title,
+                    priority: parseInt(priority),
+                    priorityScore: parseInt(priority) + (parseInt(time) > 5 ? 10 : 0),
+                    status: 'created'
+                };
+
+                result.innerHTML = `
+                    <div class="success">
+                        ✅ Tarefa criada com sucesso!<br>
+                        <small>ID: ${response.id}</small><br>
+                        <small>Priority Score: ${response.priorityScore}</small>
+                    </div>
+                `;
+            } catch (error) {
+                result.innerHTML = `<div class="error">❌ Erro: ${error.message}</div>`;
+            }
+        }
+
+        async function listTasks() {
+            const result = document.getElementById('listResult');
+            const matrixCard = document.getElementById('matrixCard');
+            const matrixDisplay = document.getElementById('matrixDisplay');
+            const totalTasks = document.getElementById('totalTasks');
+
+            result.innerHTML = '<div class="loading">⏳ Carregando tarefas...</div>';
+
+            try {
+                // Simulação de dados (em produção, chama o endpoint real)
+                const tasks = {
+                    total: 4,
+                    matrix: {
+                        "DO_FIRST (Urgent, Important)": {
+                            count: 1,
+                            tasks: [{id: "1", title: "Corrigir bug crítico", priority: 9}]
+                        },
+                        "PLAN (Not Urgent, Important)": {
+                            count: 1,
+                            tasks: [{id: "2", title: "Refatorar arquitetura", priority: 8}]
+                        },
+                        "INTERRUPT (Urgent, Not Important)": {
+                            count: 1,
+                            tasks: [{id: "3", title: "Responder e-mail", priority: 5}]
+                        },
+                        "DELEGATE (Not Urgent, Not Important)": {
+                            count: 1,
+                            tasks: [{id: "4", title: "Organizar documentos", priority: 3}]
+                        }
+                    }
+                };
+
+                totalTasks.textContent = tasks.total;
+                matrixCard.style.display = 'block';
+
+                matrixDisplay.innerHTML = `
+                    <div class="quadrant urgent-important">
+                        <h3>🔴 Urgente + Importante</h3>
+                        <p style="margin-bottom: 10px; font-size: 0.8rem; color: #666;">FAZER AGORA</p>
+                        ${tasks.matrix["DO_FIRST (Urgent, Important)"].tasks.map(t => 
+                            `<div class="task-item"><strong>${t.title}</strong> (P: ${t.priority})</div>`
+                        ).join('')}
+                    </div>
+
+                    <div class="quadrant not-urgent-important">
+                        <h3>🟢 Não Urgente + Importante</h3>
+                        <p style="margin-bottom: 10px; font-size: 0.8rem; color: #666;">PLANEJAR</p>
+                        ${tasks.matrix["PLAN (Not Urgent, Important)"].tasks.map(t => 
+                            `<div class="task-item"><strong>${t.title}</strong> (P: ${t.priority})</div>`
+                        ).join('')}
+                    </div>
+
+                    <div class="quadrant urgent-not-important">
+                        <h3>🟡 Urgente + Não Importante</h3>
+                        <p style="margin-bottom: 10px; font-size: 0.8rem; color: #666;">DELEGAR</p>
+                        ${tasks.matrix["INTERRUPT (Urgent, Not Important)"].tasks.map(t => 
+                            `<div class="task-item"><strong>${t.title}</strong> (P: ${t.priority})</div>`
+                        ).join('')}
+                    </div>
+
+                    <div class="quadrant not-urgent-not-important">
+                        <h3>🔵 Não Urgente + Não Importante</h3>
+                        <p style="margin-bottom: 10px; font-size: 0.8rem; color: #666;">ELIMINAR</p>
+                        ${tasks.matrix["DELEGATE (Not Urgent, Not Important)"].tasks.map(t => 
+                            `<div class="task-item"><strong>${t.title}</strong> (P: ${t.priority})</div>`
+                        ).join('')}
+                    </div>
+                `;
+
+                result.innerHTML = '<div class="success">✅ Tarefas carregadas!</div>';
+            } catch (error) {
+                result.innerHTML = `<div class="error">❌ Erro: ${error.message}</div>`;
+            }
+        }
+
+        async function scheduleProject() {
+            const result = document.getElementById('scheduleResult');
+            result.innerHTML = '<div class="loading">⏳ Calculando caminho crítico...</div>';
+
+            try {
+                // Simulação (em produção, chama o endpoint real)
+                const schedule = {
+                    criticalPathTime: 11,
+                    criticalTasks: ["Design", "Implementação", "Testes"],
+                    pertEstimate: 4.33,
+                    totalTasks: 4
+                };
+
+                result.innerHTML = `
+                    <div class="success">
+                        ✅ Análise completa!
+                    </div>
+                    <div class="stats">
+                        <div class="stat">
+                            <div class="stat-value">${schedule.criticalPathTime}h</div>
+                            <div class="stat-label">Tempo Crítico</div>
+                        </div>
+                        <div class="stat">
+                            <div class="stat-value">${schedule.pertEstimate}h</div>
+                            <div class="stat-label">PERT Estimate</div>
+                        </div>
+                    </div>
+                    <div style="margin-top: 15px; padding: 15px; background: #f8f9fa; border-radius: 8px;">
+                        <strong>🎯 Tarefas Críticas:</strong><br>
+                        ${schedule.criticalTasks.map(t => `• ${t}`).join('<br>')}
+                    </div>
+                `;
+            } catch (error) {
+                result.innerHTML = `<div class="error">❌ Erro: ${error.message}</div>`;
+            }
+        }
+
+        // Auto-load ao abrir
+        window.addEventListener('load', () => {
+            console.log('🚀 Advanced Task Manager - Java Serverless');
+            console.log('Algoritmos: Eisenhower Matrix, Critical Path, PERT');
+        });
+    </script>
+</body>
+</html>
