@@ -1,4 +1,9 @@
 {
+  "functions": {
+    "api/**/*.java": {
+      "runtime": "vercel-java@0.0.2"
+    }
+  },
   "rewrites": [
     {
       "source": "/(.*)",
