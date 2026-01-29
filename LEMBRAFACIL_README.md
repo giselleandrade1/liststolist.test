@@ -33,6 +33,7 @@ npx serve public
 ```
 
 **Teste Rápido:**
+
 1. Toque no botão "＋" gigante
 2. Digite "Comprar pão"
 3. Toque em "Adicionar"
@@ -79,26 +80,31 @@ LembraFácil/
 ### Implementações Profissionais
 
 ✅ **Navegação por Teclado Completa**
+
 - Tab/Shift+Tab para navegar
 - Enter/Space para ativar
 - Escape para fechar modais
 
 ✅ **Screen Readers**
+
 - ARIA labels em todos elementos
 - Live regions para anúncios
 - Semantic HTML
 
 ✅ **Visual**
+
 - Contraste mínimo 7:1 (AAA)
 - Fonte mínima 24px
 - Botões mínimo 88x88px
 
 ✅ **Motor**
+
 - Área de toque grande
 - Sem gestos complexos
 - Funciona com uma mão
 
 ✅ **Cognitivo**
+
 - Interface consistente
 - Zero mensagens de erro agressivas
 - Feedback imediato
@@ -165,32 +171,36 @@ liststolist.test/
 
 ### Stack Técnico
 
-| Componente | Tecnologia | Motivo |
-|------------|------------|--------|
-| **Frontend** | Vanilla JS | Zero bundle, máxima compatibilidade |
-| **Estilos** | CSS3 Custom Properties | Design System escalável |
-| **Persistência** | LocalStorage + Memory Cache | Multi-layer, fallback robusto |
-| **Offline** | Service Worker | Cache-first strategy |
-| **PWA** | Web Manifest | Instalável, standalone |
+| Componente       | Tecnologia                  | Motivo                              |
+| ---------------- | --------------------------- | ----------------------------------- |
+| **Frontend**     | Vanilla JS                  | Zero bundle, máxima compatibilidade |
+| **Estilos**      | CSS3 Custom Properties      | Design System escalável             |
+| **Persistência** | LocalStorage + Memory Cache | Multi-layer, fallback robusto       |
+| **Offline**      | Service Worker              | Cache-first strategy                |
+| **PWA**          | Web Manifest                | Instalável, standalone              |
 
 ### Práticas de Engenharia
 
 ✅ **Clean Code**
+
 - Funções pequenas e puras
 - Nomenclatura descritiva
 - Comentários apenas quando necessário
 
 ✅ **SOLID Principles**
+
 - Single Responsibility
 - Open/Closed
 - Dependency Inversion
 
 ✅ **Performance**
+
 - Zero frameworks pesados
 - Bundle < 20KB (gzipped)
 - FCP < 1s, TTI < 2s
 
 ✅ **Segurança**
+
 - Sanitização de inputs
 - CSP headers
 - HTTPS only
@@ -316,7 +326,7 @@ MIT License - Use livremente, aprenda, adapte.
 
 Este projeto demonstra que **engenharia sênior** não é sobre adicionar complexidade, mas sobre:
 
-> *"Esconder complexidade técnica atrás de simplicidade radical para o usuário."*
+> _"Esconder complexidade técnica atrás de simplicidade radical para o usuário."_
 
 ---
 

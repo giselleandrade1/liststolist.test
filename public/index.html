@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes">
@@ -9,13 +10,14 @@
     <link rel="manifest" href="/manifest.json">
     <link rel="stylesheet" href="/styles.css">
 </head>
+
 <body>
     <!-- Screen Reader Only Announcements -->
     <div class="sr-only" role="status" aria-live="polite" aria-atomic="true"></div>
 
     <!-- Main App Container -->
     <div class="app-container">
-        
+
         <!-- Header -->
         <header class="app-header">
             <h1 class="app-title">LembraFácil</h1>
@@ -37,23 +39,13 @@
 
         <!-- Task List -->
         <main class="task-list-container">
-            <div 
-                id="taskList" 
-                class="task-list" 
-                role="list" 
-                aria-label="Lista de tarefas"
-            >
+            <div id="taskList" class="task-list" role="list" aria-label="Lista de tarefas">
                 <!-- Tasks will be rendered here by JavaScript -->
             </div>
         </main>
 
         <!-- Add Button (Giant Plus) -->
-        <button 
-            id="addButton" 
-            class="add-button" 
-            aria-label="Adicionar nova tarefa"
-            title="Adicionar tarefa"
-        >
+        <button id="addButton" class="add-button" aria-label="Adicionar nova tarefa" title="Adicionar tarefa">
             <span class="add-icon">＋</span>
         </button>
     </div>
@@ -61,11 +53,7 @@
     <!-- Add Task Screen (Modal) -->
     <div id="addScreen" class="add-screen hidden" role="dialog" aria-modal="true" aria-labelledby="addScreenTitle">
         <div class="add-screen-content">
-            <button 
-                id="closeAddScreen" 
-                class="close-button" 
-                aria-label="Fechar"
-            >
+            <button id="closeAddScreen" class="close-button" aria-label="Fechar">
                 ✕
             </button>
 
@@ -73,15 +61,8 @@
                 O que você quer lembrar?
             </h2>
 
-            <input 
-                type="text" 
-                id="taskInput" 
-                class="task-input" 
-                placeholder="Digite aqui..."
-                maxlength="100"
-                aria-label="Texto da tarefa"
-                autocomplete="off"
-            >
+            <input type="text" id="taskInput" class="task-input" placeholder="Digite aqui..." maxlength="100"
+                aria-label="Texto da tarefa" autocomplete="off">
 
             <!-- Emoji Quick Buttons -->
             <div class="emoji-container" role="toolbar" aria-label="Adicionar emoji">
@@ -94,21 +75,12 @@
             </div>
 
             <!-- Voice Input Button (if supported) -->
-            <button 
-                id="voiceButton" 
-                class="voice-button hidden" 
-                aria-label="Gravar com voz"
-                title="Gravar com voz"
-            >
+            <button id="voiceButton" class="voice-button hidden" aria-label="Gravar com voz" title="Gravar com voz">
                 🎤 Falar
             </button>
 
             <!-- Save Button -->
-            <button 
-                id="saveTask" 
-                class="save-button" 
-                aria-label="Salvar tarefa"
-            >
+            <button id="saveTask" class="save-button" aria-label="Salvar tarefa">
                 Adicionar
             </button>
         </div>
@@ -120,4 +92,5 @@
     <!-- Load JavaScript -->
     <script src="/app.js"></script>
 </body>
+
 </html>
