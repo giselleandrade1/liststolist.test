@@ -1,18 +1,8 @@
 {
-  "functions": {
-    "api/**/*.java": {
-      "runtime": "vercel-java@0.0.2"
-    }
-  },
-  "buildCommand": "mvn clean package",
-  "outputDirectory": "target",
-  "env": {
-    "JAVA_VERSION": "17"
-  },
   "rewrites": [
     {
-      "source": "/",
-      "destination": "/public/index.html"
+      "source": "/(.*)",
+      "destination": "/public/$1"
     }
   ]
 }
