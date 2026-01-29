@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -27,7 +28,7 @@
             background: white;
             padding: 30px;
             border-radius: 15px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
             margin-bottom: 30px;
             text-align: center;
         }
@@ -64,7 +65,7 @@
             background: white;
             border-radius: 15px;
             padding: 25px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
             transition: transform 0.3s ease;
         }
 
@@ -251,14 +252,36 @@
             flex-wrap: wrap;
             margin-top: 15px;
         }
+
+        .badge-container {
+            margin-top: 15px;
+        }
+
+        .description-text {
+            color: #666;
+            margin-bottom: 10px;
+        }
+
+        .hidden {
+            display: none;
+        }
+
+        .architecture-title {
+            margin-bottom: 10px;
+        }
+
+        .architecture-description {
+            margin-bottom: 15px;
+        }
     </style>
 </head>
+
 <body>
     <div class="container">
         <header>
             <h1>🚀 Advanced Task Manager</h1>
             <p>Java Serverless | Clean Architecture | Cloud-Native</p>
-            <div style="margin-top: 15px;">
+            <div class="badge-container">
                 <span class="badge">Java 17</span>
                 <span class="badge">Vercel Serverless</span>
                 <span class="badge">Eisenhower Matrix</span>
@@ -281,7 +304,7 @@
             <!-- List Tasks Card -->
             <div class="card">
                 <h2><span class="icon">📋</span> Listar Tarefas</h2>
-                <p style="color: #666; margin-bottom: 10px;">Classificação por Matriz de Eisenhower</p>
+                <p class="description-text">Classificação por Matriz de Eisenhower</p>
                 <button onclick="listTasks()">Carregar Tarefas</button>
                 <div id="listResult"></div>
             </div>
@@ -289,14 +312,14 @@
             <!-- Schedule Card -->
             <div class="card">
                 <h2><span class="icon">⏱️</span> Caminho Crítico</h2>
-                <p style="color: #666; margin-bottom: 10px;">Análise de dependências e estimativa PERT</p>
+                <p class="description-text">Análise de dependências e estimativa PERT</p>
                 <button onclick="scheduleProject()">Calcular Critical Path</button>
                 <div id="scheduleResult"></div>
             </div>
         </div>
 
         <!-- Matrix Display -->
-        <div class="card" style="display: none;" id="matrixCard">
+        <div class="card hidden" id="matrixCard">
             <h2>📊 Matriz de Priorização</h2>
             <div class="stats">
                 <div class="stat">
@@ -308,8 +331,8 @@
         </div>
 
         <footer>
-            <h3 style="margin-bottom: 10px;">🏗️ Arquitetura</h3>
-            <p style="margin-bottom: 15px;">Core Layer (Stateless) → API Layer (Serverless) → Vercel Functions</p>
+            <h3 class="architecture-title">🏗️ Arquitetura</h3>
+            <p class="architecture-description">Core Layer (Stateless) → API Layer (Serverless) → Vercel Functions</p>
             <div class="tech-stack">
                 <span class="badge">PriorityEngine</span>
                 <span class="badge">CriticalPathEngine</span>
@@ -368,19 +391,19 @@
                     matrix: {
                         "DO_FIRST (Urgent, Important)": {
                             count: 1,
-                            tasks: [{id: "1", title: "Corrigir bug crítico", priority: 9}]
+                            tasks: [{ id: "1", title: "Corrigir bug crítico", priority: 9 }]
                         },
                         "PLAN (Not Urgent, Important)": {
                             count: 1,
-                            tasks: [{id: "2", title: "Refatorar arquitetura", priority: 8}]
+                            tasks: [{ id: "2", title: "Refatorar arquitetura", priority: 8 }]
                         },
                         "INTERRUPT (Urgent, Not Important)": {
                             count: 1,
-                            tasks: [{id: "3", title: "Responder e-mail", priority: 5}]
+                            tasks: [{ id: "3", title: "Responder e-mail", priority: 5 }]
                         },
                         "DELEGATE (Not Urgent, Not Important)": {
                             count: 1,
-                            tasks: [{id: "4", title: "Organizar documentos", priority: 3}]
+                            tasks: [{ id: "4", title: "Organizar documentos", priority: 3 }]
                         }
                     }
                 };
@@ -392,33 +415,33 @@
                     <div class="quadrant urgent-important">
                         <h3>🔴 Urgente + Importante</h3>
                         <p style="margin-bottom: 10px; font-size: 0.8rem; color: #666;">FAZER AGORA</p>
-                        ${tasks.matrix["DO_FIRST (Urgent, Important)"].tasks.map(t => 
-                            `<div class="task-item"><strong>${t.title}</strong> (P: ${t.priority})</div>`
-                        ).join('')}
+                        ${tasks.matrix["DO_FIRST (Urgent, Important)"].tasks.map(t =>
+                    `<div class="task-item"><strong>${t.title}</strong> (P: ${t.priority})</div>`
+                ).join('')}
                     </div>
 
                     <div class="quadrant not-urgent-important">
                         <h3>🟢 Não Urgente + Importante</h3>
                         <p style="margin-bottom: 10px; font-size: 0.8rem; color: #666;">PLANEJAR</p>
-                        ${tasks.matrix["PLAN (Not Urgent, Important)"].tasks.map(t => 
-                            `<div class="task-item"><strong>${t.title}</strong> (P: ${t.priority})</div>`
-                        ).join('')}
+                        ${tasks.matrix["PLAN (Not Urgent, Important)"].tasks.map(t =>
+                    `<div class="task-item"><strong>${t.title}</strong> (P: ${t.priority})</div>`
+                ).join('')}
                     </div>
 
                     <div class="quadrant urgent-not-important">
                         <h3>🟡 Urgente + Não Importante</h3>
                         <p style="margin-bottom: 10px; font-size: 0.8rem; color: #666;">DELEGAR</p>
-                        ${tasks.matrix["INTERRUPT (Urgent, Not Important)"].tasks.map(t => 
-                            `<div class="task-item"><strong>${t.title}</strong> (P: ${t.priority})</div>`
-                        ).join('')}
+                        ${tasks.matrix["INTERRUPT (Urgent, Not Important)"].tasks.map(t =>
+                    `<div class="task-item"><strong>${t.title}</strong> (P: ${t.priority})</div>`
+                ).join('')}
                     </div>
 
                     <div class="quadrant not-urgent-not-important">
                         <h3>🔵 Não Urgente + Não Importante</h3>
                         <p style="margin-bottom: 10px; font-size: 0.8rem; color: #666;">ELIMINAR</p>
-                        ${tasks.matrix["DELEGATE (Not Urgent, Not Important)"].tasks.map(t => 
-                            `<div class="task-item"><strong>${t.title}</strong> (P: ${t.priority})</div>`
-                        ).join('')}
+                        ${tasks.matrix["DELEGATE (Not Urgent, Not Important)"].tasks.map(t =>
+                    `<div class="task-item"><strong>${t.title}</strong> (P: ${t.priority})</div>`
+                ).join('')}
                     </div>
                 `;
 
@@ -472,4 +495,5 @@
         });
     </script>
 </body>
+
 </html>
