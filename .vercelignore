@@ -1,0 +1,31 @@
+# Maven
+
+target/
+_.class
+_.jar
+\*.war
+
+# Tests
+
+src/test/
+
+# IDE
+
+.idea/
+\*.iml
+.vscode/
+.settings/
+
+# OS
+
+.DS_Store
+Thumbs.db
+
+# Logs
+
+\*.log
+
+# Git
+
+.git/
+.gitignore

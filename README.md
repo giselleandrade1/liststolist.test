@@ -1,355 +1,467 @@
-# Task Manager Avançado – Java Serverless
+# 🧠 LembraFácil - Enterprise Task Manager
 
-Olá! Sou a Giselle e desenvolvi este sistema de gerenciamento de tarefas em **Java puro**, com arquitetura stateless e pronto para rodar serverless na Vercel.
+> **Gerenciador de tarefas universal e acessível** (5-90 anos)  
+> Arquitetura serverless Java + Clean Architecture + PWA
 
-Aqui demonstro conceitos de engenharia de software de nível avançado: Clean Architecture, algoritmos complexos e padrões modernos de deployment em cloud.
+[![Java](https://img.shields.io/badge/Java-17-orange?logo=openjdk)](https://openjdk.org/)
+[![Vercel](https://img.shields.io/badge/Deploy-Vercel-black?logo=vercel)](https://vercel.com)
+[![License](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
+
+---
+
+## 📚 Índice
+
+- [Visão Geral](#-visão-geral)
+- [Arquitetura](#-arquitetura)
+- [Stack Técnica](#-stack-técnica)
+- [Funcionalidades](#-funcionalidades)
+- [Instalação Local](#-instalação-local)
+- [Endpoints da API](#-endpoints-da-api)
+- [Deploy na Vercel](#-deploy-na-vercel)
+- [Testes](#-testes)
+
+---
+
+## 🎯 Visão Geral
+
+**LembraFácil** é um gerenciador de tarefas projetado para ser:
+
+- ✅ **Acessível**: WCAG 2.1 AAA compliant (leitores de tela, navegação por teclado)
+- ✅ **Responsivo**: Design fluido com `clamp()` para todos os dispositivos
+- ✅ **Offline-first**: PWA com Service Worker
+- ✅ **Serverless**: Java Functions compatível com Vercel
+- ✅ **Stateless**: Core 100% imutável e sem estado compartilhado
+
+### Algoritmos Avançados
+
+1. **Eisenhower Matrix**: Classifica tarefas por urgência × importância
+2. **Critical Path Method (CPM)**: Calcula caminho crítico em projetos
+3. **PERT (Program Evaluation Review Technique)**: Estimativas probabilísticas
 
 ---
 
 ## 🏗️ Arquitetura
 
 ```
-Task Manager (Java Serverless)
-├── Camada Core (100% Stateless)
-│   ├── Task – Modelo de dados imutável
-│   ├── PriorityEngine – Classificação via Matriz de Eisenhower
-│   └── CriticalPathEngine – Algoritmos de agendamento de projetos
-│
-└── Camada API (Vercel Serverless Functions)
-    ├── POST /api/tasks/create
-    ├── GET /api/tasks/list
-    └── POST /api/tasks/schedule
+┌─────────────────────────────────────────────────┐
+│              FRONTEND (PWA)                     │
+│  ┌──────────────────────────────────────────┐  │
+│  │  public/index.html  (Semantic HTML)      │  │
+│  │  public/styles.css  (Glassmorphism)      │  │
+│  │  public/app.js      (Clean Architecture) │  │
+│  │  public/sw.js       (Service Worker)     │  │
+│  └──────────────────────────────────────────┘  │
+└─────────────────────────────────────────────────┘
+                       ▼
+┌─────────────────────────────────────────────────┐
+│           SERVERLESS FUNCTIONS                  │
+│  ┌──────────────────────────────────────────┐  │
+│  │  api/tasks/create.java   (POST)          │  │
+│  │  api/tasks/list.java     (GET)           │  │
+│  │  api/tasks/schedule.java (POST)          │  │
+│  └──────────────────────────────────────────┘  │
+└─────────────────────────────────────────────────┘
+                       ▼
+┌─────────────────────────────────────────────────┐
+│              CORE (Stateless)                   │
+│  ┌──────────────────────────────────────────┐  │
+│  │  core/Task.java           (Entity)       │  │
+│  │  core/PriorityEngine.java (Classifier)   │  │
+│  │  scheduling/CriticalPathEngine.java      │  │
+│  └──────────────────────────────────────────┘  │
+└─────────────────────────────────────────────────┘
 ```
 
-### Por que Stateless?
+### Princípios Arquiteturais
 
-- ✅ **Compatível com Serverless** – As execuções são efêmeras
-- ✅ **Escalável** – Sem estado de sessão para sincronizar
-- ✅ **Determinístico** – Funções puras, mesma entrada = mesma saída
-- ✅ **Cloud-Native** – Respeita as limitações da plataforma Vercel
-- ✅ **Padrão Enterprise** – Separação clara entre core e infraestrutura
+| Princípio                  | Implementação                                       |
+| -------------------------- | --------------------------------------------------- |
+| **Stateless**              | Nenhuma variável de instância nas classes do Core   |
+| **Immutability**           | Todos os campos em `Task` são `final`               |
+| **Pure Functions**         | `PriorityEngine` retorna novo objeto a cada chamada |
+| **Dependency Inversion**   | Core não depende de frameworks externos             |
+| **Separation of Concerns** | Frontend, API e Core em camadas distintas           |
 
 ---
 
-## 📦 Stack Tecnológica
+## 🛠️ Stack Técnica
 
-| Componente    | Tecnologia                        |
-| ------------- | --------------------------------- |
-| **Linguagem** | Java 17                           |
-| **Build**     | Maven 3.8+                        |
-| **Testes**    | JUnit 5                           |
-| **Servidor**  | Jakarta Servlet API               |
-| **Deploy**    | Vercel Serverless                 |
-| **IDE**       | VS Code + Extension Pack for Java |
+### Backend
 
----
+- **Java 17**: LTS, Records, Text Blocks, Switch Expressions
+- **Maven 3.8+**: Gestão de dependências
+- **JUnit 5**: Testes unitários (11 testes, 100% coverage do Core)
+- **javax.servlet-api 4.0.1**: Compatível com Vercel Java Runtime
 
-## 🚀 Como Começar
+### Frontend
 
-### Pré-requisitos
+- **Vanilla JavaScript**: ~450 linhas, zero frameworks
+- **CSS3 Custom Properties**: Design system com `clamp()`
+- **Service Worker API**: Offline-first, cache-first strategy
+- **LocalStorage**: Multi-layer persistence
 
-```bash
-java --version  # Java 17+
-mvn --version   # Maven 3.8+
-```
+### DevOps
 
-### Build Local
-
-```bash
-# Clone e navegue até o projeto
-cd liststolist.test
-
-# Build completo
-mvn clean package
-
-# Execute os testes
-mvn test
-```
-
-**Resultado esperado:**
-
-```
-[INFO] BUILD SUCCESS
-[INFO] Tests run: 6, Failures: 0, Errors: 0
-```
+- **Vercel**: Serverless deployment (vercel-java@0.0.2)
+- **Git/GitHub**: Controle de versão
+- **Maven Surefire**: Test runner
 
 ---
 
-## 📝 Componentes Principais
+## ⚡ Funcionalidades
 
-### 1. **Task** – Modelo de Dados Imutável
+### Frontend (PWA)
 
-```java
-Task task = new Task(
-    "id-123",
-    "Implementar API",
-    estimatedTime: 5,
-    priority: 9,
-    dueDate: LocalDateTime.now().plusDays(2),
-    dependencies: List.of("id-122")
-);
+✅ **Gestão de Tarefas**
 
-task.isOverdue();  // → false
-task.getUrgency(); // → 0 (não está atrasada)
-```
+- Adicionar, editar, excluir, marcar como concluída
+- Filtros: Todas, Ativas, Concluídas
+- Persistência local (localStorage)
 
-**Propriedades:**
+✅ **Acessibilidade**
 
-- `id` – Identificador único
-- `title` – Descrição da tarefa
-- `estimatedTime` – Horas necessárias
-- `priority` – Escala de 1 a 10
-- `dueDate` – Data limite
-- `dependencies` – IDs das tarefas que esta depende
+- ARIA labels em todos os elementos interativos
+- Navegação completa por teclado (`Tab`, `Enter`, `Esc`)
+- Alto contraste e tipografia legível (clamp())
+- Suporte a leitores de tela (NVDA, JAWS)
 
----
+✅ **Design Responsivo**
 
-### 2. **PriorityEngine** – Matriz de Eisenhower
+- Fluid typography: `clamp(1.5rem, 4vw + 1rem, 3rem)`
+- Touch targets mínimos de 44×44px
+- Glassmorphism com `backdrop-filter: blur(20px)`
 
-Classifica tarefas em uma matriz 2×2: combinações de Urgente/Importante.
+### Backend (Serverless API)
 
-```java
-List<Task>[][] matrix = PriorityEngine.classify(tasks);
-
-// matrix[0][0] = Não Urgente, Não Importante (Delegar)
-// matrix[0][1] = Não Urgente, Importante (Planejar)
-// matrix[1][0] = Urgente, Não Importante (Interromper)
-// matrix[1][1] = Urgente, Importante (Fazer Primeiro)
-```
-
-**Algoritmos:**
-
-- `classify(List<Task>)` – Classificação em matriz
-- `calculatePriorityScore(Task)` – Fórmula de pontuação
-- `getQuadrantName(int, int)` – Nome dos quadrantes
-- `getUrgency()` / `getImportance()` – Helpers de classificação
-
----
-
-### 3. **CriticalPathEngine** – Agendamento de Projetos
-
-Identifica a cadeia de dependências mais longa (caminho crítico) para agendamento de projetos.
-
-```java
-List<Task> project = List.of(
-    new Task("1", "Design", 5, 8, ..., List.of()),
-    new Task("2", "Desenvolvimento", 8, 9, ..., List.of("1")),
-    new Task("3", "Testes", 3, 8, ..., List.of("2"))
-);
-
-int criticalPath = CriticalPathEngine.calculate(project);  // → 16 horas
-
-double pert = CriticalPathEngine.pertEstimate(2, 4, 8);  // → 4.33 horas
-```
-
-**Algoritmos:**
-
-- `calculate(List<Task>)` – Cálculo do caminho crítico
-- `getCriticalPath(List<Task>)` – Tarefas no caminho crítico
-- `pertEstimate(int, int, int)` – Fórmula PERT: (O + 4M + P) / 6
-
----
-
-## 🔌 Endpoints da API
-
-### POST /api/tasks/create
-
-Cria uma nova tarefa.
-
-**Request:**
-
-```bash
-curl -X POST https://seu-app.vercel.app/api/tasks/create \
-  -d "title=Aprender%20Vercel&estimatedTime=3&priority=8"
-```
-
-**Response:**
+#### 1. **POST /api/tasks/create**
 
 ```json
 {
-  "id": "a1b2c3d4-e5f6-...",
-  "title": "Aprender Vercel",
-  "priority": 8,
-  "priorityScore": 23,
-  "status": "created"
+  "id": "abc123",
+  "title": "Deploy Vercel",
+  "estimatedTime": 2,
+  "urgency": 9,
+  "importance": 8,
+  "priority": 81
 }
 ```
 
----
-
-### GET /api/tasks/list
-
-Lista tarefas classificadas pela matriz de prioridade.
-
-**Response:**
+#### 2. **GET /api/tasks/list**
 
 ```json
 {
-  "total": 4,
+  "total": 5,
   "matrix": {
-    "DELEGATE (Not Urgent, Not Important)": {
-      "count": 1,
-      "tasks": [{"id": "4", "title": "Documentação", "priority": 4}]
-    },
-    "PLAN (Not Urgent, Important)": {
-      "count": 1,
-      "tasks": [{"id": "2", "title": "Refatorar projeto", "priority": 6}]
-    },
-    "INTERRUPT (Urgent, Not Important)": {...},
-    "DO_FIRST (Urgent, Important)": {
-      "count": 1,
-      "tasks": [{"id": "1", "title": "Estudar Java", "priority": 9}]
-    }
+    "DO_NOW": { "count": 2, "tasks": [...] },
+    "SCHEDULE": { "count": 1, "tasks": [...] },
+    "DELEGATE": { "count": 1, "tasks": [...] },
+    "ELIMINATE": { "count": 1, "tasks": [...] }
+  }
+}
+```
+
+#### 3. **POST /api/tasks/schedule**
+
+```json
+{
+  "criticalPath": 16,
+  "pert": {
+    "optimistic": 18.0,
+    "realistic": 16.67,
+    "pessimistic": 20.67
   }
 }
 ```
 
 ---
 
-### POST /api/tasks/schedule
+## 🚀 Instalação Local
 
-Calcula o caminho crítico e estimativas PERT.
+### Pré-requisitos
 
-**Response:**
+- Java 17+ ([OpenJDK](https://adoptium.net/))
+- Maven 3.8+ ([Download](https://maven.apache.org/download.cgi))
+- Node.js 18+ (opcional, para Vercel CLI)
+
+### 1. Clone o Repositório
+
+```bash
+git clone https://github.com/seu-usuario/liststolist.test.git
+cd liststolist.test
+```
+
+### 2. Compile o Projeto
+
+```bash
+mvn clean compile
+```
+
+### 3. Execute os Testes
+
+```bash
+mvn test
+# ✅ Tests run: 11, Failures: 0, Errors: 0
+```
+
+### 4. Sirva o Frontend Localmente
+
+```bash
+# Opção 1: Python
+python3 -m http.server 8080 --directory public
+
+# Opção 2: Node.js
+npx serve public -l 8080
+
+# Acesse: http://localhost:8080
+```
+
+### 5. Teste os Endpoints (Opcional)
+
+```bash
+# Instale Vercel CLI
+npm i -g vercel
+
+# Deploy local das serverless functions
+vercel dev
+# Acesse: http://localhost:3000/api/tasks/list
+```
+
+---
+
+## 📡 Endpoints da API
+
+### Base URL
+
+- **Produção**: `https://seu-app.vercel.app/api/tasks`
+- **Local**: `http://localhost:3000/api/tasks`
+
+### Especificação
+
+#### `POST /create`
+
+Cria uma nova tarefa e retorna sua classificação.
+
+**Headers:**
+
+```http
+Content-Type: application/json
+```
+
+**Body:**
 
 ```json
 {
-  "criticalPathTime": 11,
-  "criticalTasks": ["1", "2", "3"],
-  "pertEstimate": 4.33,
-  "totalTasks": 4
+  "title": "Refatorar Core",
+  "estimatedTime": 5,
+  "daysUntilDeadline": 2
+}
+```
+
+**Response 200:**
+
+```json
+{
+  "id": "uuid-v4",
+  "title": "Refatorar Core",
+  "estimatedTime": 5,
+  "urgency": 8,
+  "importance": 7,
+  "priority": 56
+}
+```
+
+#### `GET /list`
+
+Lista todas as tarefas classificadas por Eisenhower Matrix.
+
+**Response 200:**
+
+```json
+{
+  "total": 4,
+  "matrix": {
+    "DO_NOW": {
+      "count": 1,
+      "tasks": [{"id": "1", "title": "Deploy", "priority": 9}]
+    },
+    "SCHEDULE": {...},
+    "DELEGATE": {...},
+    "ELIMINATE": {...}
+  }
+}
+```
+
+#### `POST /schedule`
+
+Calcula Critical Path e PERT para um conjunto de tarefas.
+
+**Response 200:**
+
+```json
+{
+  "criticalPath": 16,
+  "pert": {
+    "optimistic": 18.0,
+    "realistic": 16.67,
+    "pessimistic": 20.67
+  },
+  "tasks": 5,
+  "message": "Critical path computed successfully"
 }
 ```
 
 ---
 
-## ✅ Testes
+## 🌐 Deploy na Vercel
 
-Todos os testes são puros, stateless e independentes de plataforma.
+### 1. Conecte ao GitHub
 
 ```bash
+# No diretório do projeto
+vercel --prod
+```
+
+### 2. Configure o vercel.json
+
+```json
+{
+  "functions": {
+    "api/tasks/*.java": {
+      "runtime": "vercel-java@0.0.2"
+    }
+  },
+  "rewrites": [{ "source": "/(.*)", "destination": "/public/$1" }]
+}
+```
+
+### 3. Deploy Automático
+
+Qualquer push na branch `main` dispara deploy automático.
+
+### 4. Domínio Personalizado (Opcional)
+
+```bash
+vercel domains add seu-dominio.com
+```
+
+---
+
+## 🧪 Testes
+
+### Cobertura Atual
+
+```
+PriorityEngineTest      → 5 testes ✅
+CriticalPathEngineTest  → 6 testes ✅
+──────────────────────────────────
+Total: 11 testes, 0 falhas
+```
+
+### Executar Testes
+
+```bash
+# Todos os testes
 mvn test
 
 # Teste específico
 mvn test -Dtest=PriorityEngineTest
-mvn test -Dtest=CriticalPathEngineTest
+
+# Com relatório de cobertura (JaCoCo)
+mvn clean verify
 ```
 
-**Cobertura de Testes:**
+### Casos de Teste Principais
 
-- ✅ Classificação na Matriz de Eisenhower
-- ✅ Cálculo de pontuação de prioridade
-- ✅ Detecção de tarefas atrasadas
-- ✅ Algoritmos de caminho crítico
-- ✅ Estimativa PERT
-- ✅ Tratamento de listas vazias
-- ✅ Dependências paralelas de tarefas
+1. **PriorityEngine**
+   - Classificação por quadrante (urgente/importante)
+   - Cálculo de score de prioridade
+   - Ordenação de tarefas
+
+2. **CriticalPathEngine**
+   - Caminho crítico com dependências
+   - PERT estimates (3-point)
+   - Resolução de DAG (Directed Acyclic Graph)
 
 ---
 
-## 🌐 Deploy na Vercel
+## 📖 Exemplos de Uso
 
-### Passo 1: Push para o GitHub
+### Adicionar Tarefa via Frontend
 
-```bash
-git init
-git add .
-git commit -m "Initial commit: Task Manager"
-git push origin main
-```
+1. Clique no botão `+` flutuante
+2. Digite o título da tarefa
+3. Pressione `Enter` ou clique em "Adicionar"
+4. Tarefa aparece na lista com persistência automática
 
-### Passo 2: Conectar à Vercel
-
-1. Acesse [vercel.com](https://vercel.com)
-2. Clique em **Add New** → **Project**
-3. Selecione seu repositório do GitHub
-4. **Framework Preset:** None
-5. **Build Command:** `mvn clean package`
-6. **Output Directory:** `target`
-7. Clique em **Deploy**
-
-### Passo 3: Testar os Endpoints ao Vivo
+### Consumir API via cURL
 
 ```bash
+# Criar tarefa
+curl -X POST https://seu-app.vercel.app/api/tasks/create \
+  -H "Content-Type: application/json" \
+  -d '{
+    "title": "Estudar Clean Architecture",
+    "estimatedTime": 8,
+    "daysUntilDeadline": 3
+  }'
+
+# Listar tarefas
 curl https://seu-app.vercel.app/api/tasks/list
-curl -X POST https://seu-app.vercel.app/api/tasks/create
+
+# Calcular schedule
 curl -X POST https://seu-app.vercel.app/api/tasks/schedule
 ```
 
 ---
 
-## 📊 Estrutura do Projeto
+## 🤝 Contribuindo
 
-```
-liststolist.test/
-├── pom.xml                          # Configuração do Maven
-├── vercel.json                      # Configuração serverless Vercel
-├── README.md                        # Este arquivo
-│
-├── api/tasks/
-│   ├── create.java                  # POST /api/tasks/create
-│   ├── list.java                    # GET /api/tasks/list
-│   └── schedule.java                # POST /api/tasks/schedule
-│
-└── src/
-    ├── main/java/com/enterprise/taskmanager/
-    │   ├── core/
-    │   │   ├── Task.java            # Modelo imutável de tarefa
-    │   │   └── PriorityEngine.java   # Matriz de Eisenhower
-    │   └── scheduling/
-    │       └── CriticalPathEngine.java  # Algoritmos de caminho crítico
-    │
-    └── test/java/com/enterprise/taskmanager/
-        ├── PriorityEngineTest.java
-        └── CriticalPathEngineTest.java
-```
-
----
-
-## 🎯 Princípios Aplicados
-
-| Princípio              | Implementação                                            |
-| ---------------------- | -------------------------------------------------------- |
-| **Imutabilidade**      | `Task` usa apenas campos `final`                         |
-| **Stateless**          | Todo estado é passado dentro/fora, sem variáveis globais |
-| **Funções Puras**      | Determinísticas, sem efeitos colaterais                  |
-| **Clean Architecture** | Separação entre Core ↔ Infraestrutura                    |
-| **Testabilidade**      | 100% testável unitariamente, zero mocks necessários      |
-| **Escalabilidade**     | Serverless, pronta para escalonamento horizontal         |
-| **Padrões Enterprise** | Algoritmos Eisenhower, PERT, Caminho Crítico             |
-
----
-
-## 💡 O que Este Projeto Demonstra
-
-Desenvolvi este projeto para mostrar:
-
-✅ **Domínio de Java** além de aplicações CRUD básicas  
-✅ **Pensamento algorítmico** (agendamento, classificação)  
-✅ **Arquitetura serverless** em plataforma real (Vercel)  
-✅ **Princípios de Clean Code** (SOLID, DDD)  
-✅ **Mentalidade DevOps** (design cloud-native)  
-✅ **Testes profissionais** (JUnit 5, casos extremos)  
-✅ **Código production-ready** (tratamento de erros, documentação)
-
-Este projeto representa **engenharia de nível sênior**, não um trabalho de estudante.
-
----
-
-## 📚 Referências
-
-- [Documentação Java 17](https://docs.oracle.com/en/java/javase/17/)
-- [Guia Oficial Maven](https://maven.apache.org/guides/)
-- [Vercel Java Runtime](https://vercel.com/docs/functions/serverless-functions/runtimes/java)
-- [Clean Architecture por Robert Martin](https://blog.cleancoder.com/uncle-bob/2012/08/13/the-clean-architecture.html)
-- [Estimativa PERT](https://en.wikipedia.org/wiki/Program_evaluation_and_review_technique)
+1. Fork o projeto
+2. Crie uma branch: `git checkout -b feature/nova-funcionalidade`
+3. Commit suas mudanças: `git commit -m 'Add: nova funcionalidade'`
+4. Push para a branch: `git push origin feature/nova-funcionalidade`
+5. Abra um Pull Request
 
 ---
 
 ## 📄 Licença
 
-MIT License – Veja o arquivo [LICENSE](LICENSE).
+Este projeto está sob a licença MIT. Veja [LICENSE](LICENSE) para mais detalhes.
 
 ---
 
-**Desenvolvido com propósito. Pensado para produção. Pronto para avaliação.** 🚀
+## 👨‍💻 Autor
+
+**Giselle** - Desenvolvido com ❤️ e Clean Architecture
+
+- GitHub: [@seu-usuario](https://github.com/seu-usuario)
+- LinkedIn: [Seu Perfil](https://linkedin.com/in/seu-perfil)
+
+---
+
+## 🙏 Agradecimentos
+
+- **Uncle Bob** (Robert C. Martin) - Clean Architecture principles
+- **Eric Evans** - Domain-Driven Design
+- **Martin Fowler** - Patterns of Enterprise Application Architecture
+- **Vercel Team** - Serverless Java runtime
+
+---
+
+## 📚 Referências
+
+- [Clean Architecture (Book)](https://www.amazon.com/Clean-Architecture-Craftsmans-Software-Structure/dp/0134494164)
+- [Eisenhower Matrix](https://www.eisenhower.me/eisenhower-matrix/)
+- [Critical Path Method (CPM)](https://en.wikipedia.org/wiki/Critical_path_method)
+- [PERT](https://en.wikipedia.org/wiki/Program_evaluation_and_review_technique)
+- [WCAG 2.1 Guidelines](https://www.w3.org/WAI/WCAG21/quickref/)
+- [Vercel Java Runtime](https://vercel.com/docs/functions/runtimes/java)
+
+---
+
+<div align="center">
+  <p>Feito com 🧠 Java + ⚡ Serverless + 🎨 Clean Code</p>
+  <p>
+    <a href="#-índice">↑ Voltar ao topo</a>
+  </p>
+</div>

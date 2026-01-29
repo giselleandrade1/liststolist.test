@@ -3,12 +3,13 @@
 
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="Lista de tarefas simples para todos - crianças e idosos">
-    <meta name="theme-color" content="#667eea">
     <title>LembraFácil - Lista de Tarefas Simples</title>
+    <link rel="apple-touch-icon" href="/icon-192.png">
     <link rel="manifest" href="/manifest.json">
     <link rel="stylesheet" href="/styles.css">
+    <link rel="stylesheet" href="/advanced.css">
 </head>
 
 <body>
@@ -89,8 +90,125 @@
     <!-- Success Animation Container -->
     <div id="animationContainer" aria-hidden="true"></div>
 
+    <!-- Advanced Engineering Showcase -->
+    <section class="advanced-app" id="advancedApp" aria-labelledby="advancedTitle">
+        <header class="advanced-header">
+            <div>
+                <h2 id="advancedTitle" class="advanced-title">LembraFácil Pro Lab</h2>
+                <p class="app-subtitle">Microkernel + Event Sourcing + CQRS + CRDT</p>
+            </div>
+            <div class="advanced-controls" role="group" aria-label="Controles avançados">
+                <select id="themeSelect" class="advanced-select" aria-label="Selecionar tema">
+                    <option value="system">Tema do sistema</option>
+                    <option value="light">Claro</option>
+                    <option value="dark">Escuro</option>
+                    <option value="dynamic">Dinâmico</option>
+                </select>
+                <button id="seedTasks" class="advanced-button" type="button">Gerar demo</button>
+                <button id="runAnalytics" class="advanced-button" type="button">Analisar</button>
+            </div>
+        </header>
+
+        <div class="advanced-grid">
+            <div class="advanced-card">
+                <h3>Adicionar tarefa multidimensional</h3>
+                <label class="sr-only" for="advancedTitleInput">Título</label>
+                <input id="advancedTitleInput" class="advanced-input" type="text" placeholder="Título da tarefa">
+                <label class="sr-only" for="advancedEnergy">Energia (1-10)</label>
+                <input id="advancedEnergy" class="advanced-input" type="number" min="1" max="10" value="5">
+                <label class="sr-only" for="advancedDeadline">Prazo flexível</label>
+                <input id="advancedDeadline" class="advanced-input" type="date">
+                <button id="advancedAdd" class="advanced-button" type="button">Adicionar</button>
+            </div>
+
+            <div class="advanced-card">
+                <h3>Estado centralizado</h3>
+                <div id="stateSummary" aria-live="polite">Inicializando...</div>
+                <div class="advanced-footer">Cache LRU + CRDT ativo</div>
+            </div>
+
+            <div class="advanced-card">
+                <h3>Fila de prioridade & matriz 4D</h3>
+                <div id="priorityPreview">Carregando...</div>
+                <div class="advanced-footer">Eisenhower × Pareto × Energia × Contexto</div>
+            </div>
+
+            <div class="advanced-card">
+                <h3>Virtual scrolling + busca</h3>
+                <label class="sr-only" for="searchInput">Buscar tarefas</label>
+                <input id="searchInput" class="advanced-input" type="search" placeholder="Buscar tarefas">
+                <div id="virtualList" class="virtual-list" role="list" aria-label="Lista virtual"></div>
+            </div>
+
+            <div class="advanced-card">
+                <h3>Automação e templates</h3>
+                <label class="sr-only" for="scriptInput">Script</label>
+                <input id="scriptInput" class="advanced-input" type="text" placeholder="ex: template sprint 3">
+                <button id="runScript" class="advanced-button" type="button">Executar</button>
+                <div class="advanced-footer">DSL mínima para workflows</div>
+            </div>
+        </div>
+
+        <div class="advanced-view-tabs" role="tablist" aria-label="Visualizações avançadas">
+            <button class="advanced-button" data-view="kanban" role="tab" aria-selected="true">Kanban</button>
+            <button class="advanced-button" data-view="gantt" role="tab" aria-selected="false">Gantt</button>
+            <button class="advanced-button" data-view="mindmap" role="tab" aria-selected="false">Mapa mental</button>
+            <button class="advanced-button" data-view="calendar" role="tab" aria-selected="false">Calendário 4D</button>
+        </div>
+
+        <div id="view-kanban" class="advanced-view active" role="tabpanel">
+            <div class="kanban-columns">
+                <div class="kanban-column" data-status="todo">
+                    <strong>Planejar</strong>
+                    <div class="kanban-list" id="kanbanTodo"></div>
+                </div>
+                <div class="kanban-column" data-status="doing">
+                    <strong>Executar</strong>
+                    <div class="kanban-list" id="kanbanDoing"></div>
+                </div>
+                <div class="kanban-column" data-status="done">
+                    <strong>Finalizar</strong>
+                    <div class="kanban-list" id="kanbanDone"></div>
+                </div>
+            </div>
+        </div>
+
+        <div id="view-gantt" class="advanced-view" role="tabpanel">
+            <div class="gantt-timeline" id="ganttTimeline"></div>
+        </div>
+
+        <div id="view-mindmap" class="advanced-view" role="tabpanel">
+            <div class="mindmap" id="mindMap"></div>
+        </div>
+
+        <div id="view-calendar" class="advanced-view" role="tabpanel">
+            <div class="calendar-grid" id="calendarGrid"></div>
+        </div>
+
+        <div class="advanced-card">
+            <h3>Analytics & previsões</h3>
+            <div class="analytics-grid">
+                <div>
+                    <p>Burndown</p>
+                    <div class="analytics-bar"><span id="burndownBar" class="burndown-bar"></span></div>
+                </div>
+                <div>
+                    <p>Heatmap semanal</p>
+                    <div id="heatmapPreview"></div>
+                </div>
+                <div>
+                    <p>Previsão de conclusão</p>
+                    <strong id="forecastText">--</strong>
+                </div>
+            </div>
+        </div>
+
+        <div class="advanced-footer" id="advancedLog" aria-live="polite"></div>
+    </section>
+
     <!-- Load JavaScript -->
     <script src="/app.js"></script>
+    <script src="/advanced.js"></script>
 </body>
 
 </html>

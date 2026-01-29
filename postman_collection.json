@@ -1,0 +1,76 @@
+{
+  "info": {
+    "name": "LembraFácil API",
+    "description": "Coleção de endpoints para o gerenciador de tarefas serverless",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "Create Task",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"title\": \"Deploy na Vercel\",\n  \"estimatedTime\": 2,\n  \"daysUntilDeadline\": 1\n}"
+        },
+        "url": {
+          "raw": "{{baseUrl}}/api/tasks/create",
+          "host": ["{{baseUrl}}"],
+          "path": ["api", "tasks", "create"]
+        },
+        "description": "Cria uma nova tarefa e retorna sua classificação de prioridade"
+      },
+      "response": []
+    },
+    {
+      "name": "List Tasks by Matrix",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{baseUrl}}/api/tasks/list",
+          "host": ["{{baseUrl}}"],
+          "path": ["api", "tasks", "list"]
+        },
+        "description": "Lista todas as tarefas organizadas pela Matriz de Eisenhower"
+      },
+      "response": []
+    },
+    {
+      "name": "Calculate Schedule",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{}"
+        },
+        "url": {
+          "raw": "{{baseUrl}}/api/tasks/schedule",
+          "host": ["{{baseUrl}}"],
+          "path": ["api", "tasks", "schedule"]
+        },
+        "description": "Calcula o Critical Path e estimativas PERT para um projeto"
+      },
+      "response": []
+    }
+  ],
+  "variable": [
+    {
+      "key": "baseUrl",
+      "value": "http://localhost:3000",
+      "type": "string"
+    }
+  ]
+}

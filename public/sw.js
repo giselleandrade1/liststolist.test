@@ -8,7 +8,10 @@ const ASSETS = [
     '/',
     '/index.html',
     '/styles.css',
+    '/advanced.css',
     '/app.js',
+    '/advanced.js',
+    '/advanced-worker.js',
     '/manifest.json'
 ];
 
