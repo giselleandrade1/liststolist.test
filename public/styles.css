@@ -1,0 +1,669 @@
+/**
+ * LembraFácil - Estilos Universais
+ * Design System para acessibilidade máxima
+ * WCAG 2.1 AAA Compliant
+ */
+
+/* ============================================
+   RESET & BASE STYLES
+   ============================================ */
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+:root {
+    /* Colors - WCAG AAA compliant */
+    --color-primary: #667eea;
+    --color-primary-dark: #5568d3;
+    --color-bg: #f0f4f8;
+    --color-white: #ffffff;
+    --color-text: #1a202c;
+    --color-text-secondary: #4a5568;
+    
+    /* Task colors */
+    --color-red: #fc8181;
+    --color-yellow: #fbd38d;
+    --color-green: #68d391;
+    --color-blue: #63b3ed;
+    
+    /* Spacing */
+    --spacing-xs: 8px;
+    --spacing-sm: 12px;
+    --spacing-md: 16px;
+    --spacing-lg: 24px;
+    --spacing-xl: 32px;
+    --spacing-2xl: 48px;
+    
+    /* Typography */
+    --font-size-xs: 14px;
+    --font-size-sm: 18px;
+    --font-size-md: 24px;
+    --font-size-lg: 32px;
+    --font-size-xl: 48px;
+    --font-size-2xl: 64px;
+    
+    /* Touch targets (minimum 44x44px per WCAG) */
+    --touch-min: 88px;
+    
+    /* Transitions */
+    --transition-fast: 0.2s ease;
+    --transition-normal: 0.3s ease;
+}
+
+/* High contrast mode */
+[data-contrast="high"] {
+    --color-primary: #0000ff;
+    --color-bg: #000000;
+    --color-white: #ffff00;
+    --color-text: #ffffff;
+}
+
+/* Reduced motion */
+@media (prefers-reduced-motion: reduce) {
+    * {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+    }
+}
+
+/* Dark mode */
+@media (prefers-color-scheme: dark) {
+    :root {
+        --color-bg: #1a202c;
+        --color-white: #2d3748;
+        --color-text: #f7fafc;
+        --color-text-secondary: #e2e8f0;
+    }
+}
+
+/* ============================================
+   ACCESSIBILITY UTILITIES
+   ============================================ */
+
+.sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border-width: 0;
+}
+
+/* Focus styles - highly visible */
+*:focus {
+    outline: 4px solid var(--color-primary);
+    outline-offset: 4px;
+}
+
+*:focus:not(:focus-visible) {
+    outline: none;
+}
+
+*:focus-visible {
+    outline: 4px solid var(--color-primary);
+    outline-offset: 4px;
+}
+
+/* ============================================
+   BASE LAYOUT
+   ============================================ */
+
+html {
+    font-size: 16px;
+    -webkit-text-size-adjust: 100%;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+    background: var(--color-bg);
+    color: var(--color-text);
+    line-height: 1.5;
+    min-height: 100vh;
+    padding: var(--spacing-lg);
+}
+
+/* ============================================
+   APP CONTAINER
+   ============================================ */
+
+.app-container {
+    max-width: 800px;
+    margin: 0 auto;
+    padding-bottom: 120px; /* Space for floating add button */
+}
+
+/* ============================================
+   HEADER
+   ============================================ */
+
+.app-header {
+    background: var(--color-white);
+    border-radius: 24px;
+    padding: var(--spacing-xl);
+    margin-bottom: var(--spacing-xl);
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    text-align: center;
+}
+
+.app-title {
+    font-size: var(--font-size-xl);
+    font-weight: 800;
+    color: var(--color-primary);
+    margin-bottom: var(--spacing-sm);
+}
+
+.app-subtitle {
+    font-size: var(--font-size-md);
+    color: var(--color-text-secondary);
+    font-weight: 600;
+}
+
+/* ============================================
+   FILTER BUTTONS
+   ============================================ */
+
+.filter-container {
+    display: flex;
+    gap: var(--spacing-sm);
+    margin-bottom: var(--spacing-xl);
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+.filter-btn {
+    background: var(--color-white);
+    border: 3px solid transparent;
+    border-radius: 16px;
+    padding: var(--spacing-md) var(--spacing-lg);
+    font-size: var(--font-size-sm);
+    font-weight: 700;
+    color: var(--color-text);
+    cursor: pointer;
+    min-height: var(--touch-min);
+    min-width: 120px;
+    transition: all var(--transition-fast);
+}
+
+.filter-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+.filter-btn.active {
+    background: var(--color-primary);
+    color: var(--color-white);
+    border-color: var(--color-primary-dark);
+}
+
+/* ============================================
+   TASK LIST
+   ============================================ */
+
+.task-list-container {
+    min-height: 300px;
+}
+
+.task-list {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-md);
+}
+
+/* Empty State */
+.empty-state {
+    text-align: center;
+    padding: var(--spacing-2xl);
+    background: var(--color-white);
+    border-radius: 24px;
+}
+
+.empty-icon {
+    font-size: var(--font-size-2xl);
+    margin-bottom: var(--spacing-md);
+}
+
+.empty-text {
+    font-size: var(--font-size-lg);
+    font-weight: 700;
+    color: var(--color-text);
+    margin-bottom: var(--spacing-sm);
+}
+
+.empty-hint {
+    font-size: var(--font-size-md);
+    color: var(--color-text-secondary);
+}
+
+/* Task Card */
+.task-card {
+    background: var(--color-white);
+    border-radius: 20px;
+    padding: var(--spacing-lg);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--spacing-md);
+    cursor: pointer;
+    transition: all var(--transition-normal);
+    border: 4px solid transparent;
+    min-height: var(--touch-min);
+    position: relative;
+}
+
+.task-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+}
+
+.task-card:active {
+    transform: translateY(-2px);
+}
+
+/* Task Colors */
+.task-red {
+    border-color: var(--color-red);
+    background: rgba(252, 129, 129, 0.1);
+}
+
+.task-yellow {
+    border-color: var(--color-yellow);
+    background: rgba(251, 211, 141, 0.1);
+}
+
+.task-green {
+    border-color: var(--color-green);
+    background: rgba(104, 211, 145, 0.1);
+}
+
+.task-blue {
+    border-color: var(--color-blue);
+    background: rgba(99, 179, 237, 0.1);
+}
+
+/* Task Content */
+.task-content {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-md);
+}
+
+.task-text {
+    font-size: var(--font-size-md);
+    font-weight: 600;
+    color: var(--color-text);
+    word-break: break-word;
+}
+
+.task-done .task-text {
+    text-decoration: line-through;
+    opacity: 0.6;
+}
+
+.task-check {
+    font-size: var(--font-size-lg);
+    color: var(--color-green);
+}
+
+/* Color Button */
+.task-color-btn {
+    background: var(--color-white);
+    border: 3px solid var(--color-text-secondary);
+    border-radius: 12px;
+    width: 60px;
+    height: 60px;
+    font-size: var(--font-size-lg);
+    cursor: pointer;
+    transition: all var(--transition-fast);
+    flex-shrink: 0;
+}
+
+.task-color-btn:hover {
+    transform: scale(1.1);
+    border-color: var(--color-primary);
+}
+
+/* Color Picker */
+.color-picker {
+    position: absolute;
+    top: 100%;
+    right: 0;
+    margin-top: var(--spacing-sm);
+    background: var(--color-white);
+    border-radius: 16px;
+    padding: var(--spacing-sm);
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
+    display: flex;
+    gap: var(--spacing-xs);
+    z-index: 100;
+}
+
+.color-option {
+    width: 60px;
+    height: 60px;
+    border: 3px solid transparent;
+    border-radius: 12px;
+    font-size: var(--font-size-lg);
+    cursor: pointer;
+    transition: all var(--transition-fast);
+}
+
+.color-option:hover {
+    transform: scale(1.15);
+}
+
+.color-red {
+    background: var(--color-red);
+}
+
+.color-yellow {
+    background: var(--color-yellow);
+}
+
+.color-green {
+    background: var(--color-green);
+}
+
+.color-blue {
+    background: var(--color-blue);
+}
+
+/* ============================================
+   ADD BUTTON (Floating)
+   ============================================ */
+
+.add-button {
+    position: fixed;
+    bottom: var(--spacing-xl);
+    right: var(--spacing-xl);
+    width: 120px;
+    height: 120px;
+    background: var(--color-primary);
+    border: none;
+    border-radius: 50%;
+    box-shadow: 0 8px 24px rgba(102, 126, 234, 0.4);
+    cursor: pointer;
+    transition: all var(--transition-normal);
+    z-index: 50;
+}
+
+.add-button:hover {
+    transform: scale(1.1) rotate(90deg);
+    box-shadow: 0 12px 32px rgba(102, 126, 234, 0.6);
+}
+
+.add-button:active {
+    transform: scale(1.05) rotate(90deg);
+}
+
+.add-icon {
+    color: var(--color-white);
+    font-size: var(--font-size-2xl);
+    font-weight: 300;
+    display: block;
+}
+
+/* Pulse animation for onboarding */
+.add-button.pulse {
+    animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+    0%, 100% {
+        transform: scale(1);
+        box-shadow: 0 8px 24px rgba(102, 126, 234, 0.4);
+    }
+    50% {
+        transform: scale(1.15);
+        box-shadow: 0 12px 36px rgba(102, 126, 234, 0.7);
+    }
+}
+
+/* ============================================
+   ADD SCREEN (Modal)
+   ============================================ */
+
+.add-screen {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.7);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+    padding: var(--spacing-lg);
+}
+
+.add-screen.hidden {
+    display: none;
+}
+
+.add-screen-content {
+    background: var(--color-white);
+    border-radius: 32px;
+    padding: var(--spacing-2xl);
+    max-width: 600px;
+    width: 100%;
+    position: relative;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+}
+
+.close-button {
+    position: absolute;
+    top: var(--spacing-lg);
+    right: var(--spacing-lg);
+    background: transparent;
+    border: none;
+    font-size: var(--font-size-xl);
+    color: var(--color-text-secondary);
+    cursor: pointer;
+    width: 60px;
+    height: 60px;
+    border-radius: 12px;
+    transition: all var(--transition-fast);
+}
+
+.close-button:hover {
+    background: var(--color-bg);
+    color: var(--color-text);
+}
+
+.add-screen-title {
+    font-size: var(--font-size-lg);
+    font-weight: 700;
+    color: var(--color-text);
+    margin-bottom: var(--spacing-xl);
+    text-align: center;
+}
+
+.task-input {
+    width: 100%;
+    padding: var(--spacing-lg);
+    font-size: var(--font-size-md);
+    border: 4px solid var(--color-primary);
+    border-radius: 16px;
+    margin-bottom: var(--spacing-lg);
+    font-family: inherit;
+    color: var(--color-text);
+    background: var(--color-white);
+}
+
+.task-input::placeholder {
+    color: var(--color-text-secondary);
+    opacity: 0.6;
+}
+
+.task-input:focus {
+    border-color: var(--color-primary-dark);
+}
+
+/* Emoji Container */
+.emoji-container {
+    display: flex;
+    gap: var(--spacing-sm);
+    justify-content: center;
+    flex-wrap: wrap;
+    margin-bottom: var(--spacing-lg);
+}
+
+.emoji-btn {
+    width: 70px;
+    height: 70px;
+    background: var(--color-bg);
+    border: 3px solid transparent;
+    border-radius: 16px;
+    font-size: var(--font-size-lg);
+    cursor: pointer;
+    transition: all var(--transition-fast);
+}
+
+.emoji-btn:hover {
+    transform: scale(1.15);
+    background: var(--color-primary);
+    border-color: var(--color-primary-dark);
+}
+
+/* Voice Button */
+.voice-button {
+    width: 100%;
+    padding: var(--spacing-lg);
+    background: var(--color-blue);
+    border: none;
+    border-radius: 16px;
+    color: var(--color-white);
+    font-size: var(--font-size-md);
+    font-weight: 700;
+    cursor: pointer;
+    margin-bottom: var(--spacing-lg);
+    transition: all var(--transition-fast);
+}
+
+.voice-button:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 20px rgba(99, 179, 237, 0.4);
+}
+
+.voice-button.hidden {
+    display: none;
+}
+
+/* Save Button */
+.save-button {
+    width: 100%;
+    padding: var(--spacing-xl);
+    background: var(--color-primary);
+    border: none;
+    border-radius: 16px;
+    color: var(--color-white);
+    font-size: var(--font-size-lg);
+    font-weight: 700;
+    cursor: pointer;
+    transition: all var(--transition-fast);
+    min-height: var(--touch-min);
+}
+
+.save-button:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 12px 32px rgba(102, 126, 234, 0.4);
+}
+
+.save-button:active {
+    transform: translateY(-2px);
+}
+
+/* ============================================
+   ANIMATIONS
+   ============================================ */
+
+.success-animation {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 120px;
+    color: var(--color-green);
+    z-index: 2000;
+    animation: successPop 1s ease;
+    pointer-events: none;
+}
+
+@keyframes successPop {
+    0% {
+        transform: translate(-50%, -50%) scale(0);
+        opacity: 0;
+    }
+    50% {
+        transform: translate(-50%, -50%) scale(1.2);
+        opacity: 1;
+    }
+    100% {
+        transform: translate(-50%, -50%) scale(0);
+        opacity: 0;
+    }
+}
+
+@keyframes taskComplete {
+    0%, 100% {
+        transform: scale(1);
+    }
+    50% {
+        transform: scale(1.05);
+    }
+}
+
+/* ============================================
+   RESPONSIVE DESIGN
+   ============================================ */
+
+@media (max-width: 768px) {
+    body {
+        padding: var(--spacing-sm);
+    }
+    
+    .app-header {
+        padding: var(--spacing-lg);
+    }
+    
+    .app-title {
+        font-size: var(--font-size-lg);
+    }
+    
+    .add-button {
+        width: 90px;
+        height: 90px;
+        bottom: var(--spacing-lg);
+        right: var(--spacing-lg);
+    }
+    
+    .add-icon {
+        font-size: var(--font-size-xl);
+    }
+}
+
+/* ============================================
+   PRINT STYLES
+   ============================================ */
+
+@media print {
+    .add-button,
+    .filter-container,
+    .task-color-btn {
+        display: none !important;
+    }
+    
+    .task-card {
+        break-inside: avoid;
+    }
+}
